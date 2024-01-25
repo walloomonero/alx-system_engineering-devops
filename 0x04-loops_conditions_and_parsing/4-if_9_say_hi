@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-
 # The script displays "Best School" 10 times,
-# But for the 9th iteration, displays Best School and then Hi on a new line.
+# but for the 9th iteration, displays Best School and then Hi on a new line.
 
 # Initializes a counter
 counter=1
