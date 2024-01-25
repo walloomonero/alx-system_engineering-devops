@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # The script displays bad luck for the 4th loop iteration,
-# Displays good luck for the 8th loop iteration
-# Displays Best School for the other iterations.
+# displays good luck for the 8th loop iteration and
+# displays Best School for the other iterations.
 
 # Initializes a counter
 counter=1
