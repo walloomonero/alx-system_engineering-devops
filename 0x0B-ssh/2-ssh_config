@@ -1,0 +1,7 @@
+# SSH client configuration
+
+Host ubuntu@3.85.175.214
+    HostName <3.85.175.214>
+    User <ubuntu>
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
