@@ -5,9 +5,12 @@
 #Number of bits in the created key to be created 4096
 #The created key must be protected by the passphrase betty
 
-read -s -p "Enter passphrase for the private key: " passphrase
-echo
+# Defines variables
+private_key="school"
+key_bits="4096"
+passphrase="betty"
 
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/school -N "$passphrase"
+# Generates RSA key pair
+ssh-keygen -t rsa -b "$key_bits" -f ~/.ssh/"$private_key" -N "$passphrase"
 
-echo "RSA key pair created successfully."
+echo "RSA key pair generated successfully."
