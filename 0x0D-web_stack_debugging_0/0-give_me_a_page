@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Update index file in the document root directory to contain the desired content, "Hello Holberton"
+
+echo "Hello Holberton" > /var/www/html/index.html
