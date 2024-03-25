@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-#Update index file in the document root directory to contain the desired content, "Hello Holberton"
+#Getting apache2 to run on the container.
 
-echo "Hello Holberton" > /var/www/html/index.html
+service apache2 start
