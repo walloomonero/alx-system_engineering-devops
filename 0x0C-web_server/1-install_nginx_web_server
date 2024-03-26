@@ -28,4 +28,4 @@ server {
 }
 EOF
 
-service nginx start
+/etc/init.d/nginx restart
