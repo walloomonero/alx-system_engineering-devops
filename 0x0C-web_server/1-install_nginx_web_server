@@ -28,5 +28,4 @@ server {
 }
 EOF
 
-echo "Hello World!" > /var/www/html/index.html
 service nginx start
