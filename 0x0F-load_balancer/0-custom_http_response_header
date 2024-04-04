@@ -16,17 +16,17 @@ sudo apt-get install -y nginx
 echo "Hello World!" > /var/www/html/index.html
 
 # Performs a "moved permanently redirection" (301)
-new_string="server_name _;\n\trewrite ^\/redirect_me :https://whois.whoisxmlapi.com/;"
-sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-available/default
+new_string="server_name _;\n\trewrite ^\/redirect_me https://example.com/new-page;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
 # Creates a 404 Custom error page
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 
-sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-available/default
+sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
 
 # Creates an HTTP response header
-sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
 
 # Testing configuration syntax errors
 sudo nginx -t
