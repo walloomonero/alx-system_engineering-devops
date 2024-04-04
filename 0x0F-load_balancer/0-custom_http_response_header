@@ -1,34 +1,29 @@
 #!/usr/bin/env bash
+# Install Nginx and configure web-02 to be identical to web-01.
+# Adds HTTP header named X-Served-By $HOSTNAME
 
-# Configures a brand new Ubuntu machine to the requirements:
-# Configure Nginx so that its HTTP response contains
-# a custom header (on web-01 and web-02).
-# The name of the custom HTTP header must be X-Served-By.
-# The value of the custom HTTP header must be the
-# hostname of the server Nginx is running on.
-# Customizing a 404-error_page
+apt-get update
+apt-get install -y nginx
 
-# Updating Packages before performing installations
-sudo apt-get update
-sudo apt-get install -y nginx
-
-# Creating an index.html page
+mkdir -p /var/www/html
+touch /var/www/html/index.html
 echo "Hello World!" > /var/www/html/index.html
-
-# Performs a "moved permanently redirection" (301)
-new_string="server_name _;\n\trewrite ^\/redirect_me https://example.com/new-page;"
-sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
-
-# Creates a 404 Custom error page
+touch /var/www/html/404.html
 echo "Ceci n'est pas une page" > /var/www/html/404.html
-new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-
-sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
-
-# Creates an HTTP response header
-sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
-
-# Testing configuration syntax errors
-sudo nginx -t
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+    location /redirect_me {
+	return 301 https://www.example:.com/webpage/;
+    }
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-enabled/default
 
 sudo service nginx restart
