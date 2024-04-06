@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# The  script that will display information about subdomains.
+# Add the subdomain www to your domain, point it to your lb-01 IP.
+# Add the subdomain lb-01 to your domain, point it to your lb-01 IP.
+# Add the subdomain web-01 to your domain, point it to your web-01 IP.
+# Add the subdomain web-02 to your domain, point it to your web-02 IP.
+
+# The function to retrieve and display information about a subdomain
+print_subdomain_domain () {
+	dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
+}
+
+if [ "$#" -eq 2 ]
+then
+	print_subdomain_domain "$2.$1" "$2"
+else
+	print_subdomain_domain "www.$1" "www"
+	print_subdomain_domain "lb-01.$1" "lb-01"
+	print_subdomain_domain "web-01.$1" "web-01"
+	print_subdomain_domain "web-02.$1" "web-02"
+fi
