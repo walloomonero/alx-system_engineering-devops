@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #The script to configure server to listen on port 80 of all servers active IPv4 IPs.
 
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
 
 sudo service nginx restart
 
-kill "$(pgrep 'nginx' | head -1)"
+echo "" | sudo dd status=none of=/run/nginx.pid
