@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# The script fixes server bug
+
+chmod 644 /etc/nginx/nginx.conf
+sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
+sed -i '/listen 80;/a listen 8080 default_server;' /etc/nginx/sites-available/default
+pkill apache2
+
+# restart
+service nginx restart
