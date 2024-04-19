@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-sed -i 's/^user .*/user nginx/' /etc/nginx/nginx.conf
-sed -i '/listen 80;/a listen 8080 default_server' /etc/nginx/sites-available/default
-service nginx restart
+chmod 644 /etc/nginx/nginx.conf
+sed -Ei 's/\s*#?\s*user .*/user nginx/' /etc/nginx/nginx.conf
+sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
+sed -i '/listen 8080 default_server/d' /etc/nginx/sites-enabled/default
+echo -e "listen 8080;\n\tlisten [::]:8080;" >> /etc/nginx/sites-enabled/default
+pkill apache2
+su nginx -s /bin/bash -c 'service nginx restart'
